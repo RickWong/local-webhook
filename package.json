@@ -1,6 +1,6 @@
 {
   "name": "local-webhook",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Zero-configuration localhost webhooks",
   "main": "LocalWebhook.js",
   "author": "Rick Wong <rick@webambition.nl> (https://rick.codes)",

@@ -19,7 +19,7 @@ const fetch = require("node-fetch");
     simulatedTriggers.push(fetch(promise.getWebhookUrl()));
 
     // 2) Observable example:
-    const observable = LocalWebhook.getObservable();
+    const observable = LocalWebhook.getObservable("optional-permanent-route");
     observable.subscribe({
       next: ({ req, res }) => {
         res.send("Hello from observable");

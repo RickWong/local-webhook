@@ -58,12 +58,12 @@ var LocalWebhook = {
     return ngrok.kill();
   },
 
-  getPromise: function() {
+  getPromise: function(id) {
     if (!LocalWebhook.ngrokUrl) {
       throw new Error("Please call and await LocalWebhook.startServer() first");
     }
 
-    var id = LocalWebhook.randomString() + "-promise";
+    id = id || LocalWebhook.randomString() + "-promise";
 
     var promise = new Promise(function(resolve) {
       LocalWebhook.callbacks[id] = function(req, res) {
@@ -80,16 +80,20 @@ var LocalWebhook = {
     return promise;
   },
 
-  getObservable: function() {
+  getObservable: function(id) {
     if (!LocalWebhook.ngrokUrl) {
       throw new Error("Please call and await LocalWebhook.startServer() first");
     }
 
-    var id = LocalWebhook.randomString() + "-observable";
+    id = id || LocalWebhook.randomString() + "-observable";
 
     var observable = {
       subscribe: function(handlers) {
-        observable.next = handlers.next;
+        if (handlers.next) {
+          observable.next = handlers.next;
+        } else if (handlers.bind) {
+          observable.next = handlers;
+        }
       },
       unsubscribe: function() {
         LocalWebhook.callbacks[id] = null;
