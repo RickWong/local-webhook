@@ -80,7 +80,7 @@ var LocalWebhook = {
     return promise;
   },
 
-  getObservable() {
+  getObservable: function() {
     if (!LocalWebhook.ngrokUrl) {
       throw new Error("Please call and await LocalWebhook.startServer() first");
     }
