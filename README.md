@@ -57,10 +57,12 @@ observable.subscribe({
 });
 ```
 
+To replay requests, open ngrok's web interface at [localhost:4040](http://localhost:4040).
+
 ## Peer dependencies
 
 - [expressjs/express](https://github.com/expressjs/express) - http server
-- [bubenshchykov/ngrok](https://github.com/bubenshchykov/ngrok) - [ngrok](https://ngrok.com/) wrapper
+- [bubenshchykov/ngrok](https://github.com/bubenshchykov/ngrok) - a [ngrok](https://ngrok.com/) wrapper
 
 ## Community
 
