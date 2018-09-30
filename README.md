@@ -63,6 +63,13 @@ observable.getWebhookUrl();
 
 Let's start one together! After you ★ this project, follow me [@rygu](https://twitter.com/rygu) on Twitter.
 
+## Thanks
+
+- [Vernon de Goede](https://github.com/vernondegoede)
+- [Giel Cobben](https://github.com/gielcobben)
+- [René Feiner](https://github.com/rfeiner)
+- [Mathieu Kooiman](https://github.com/mathieuk)
+
 ## License
 
 BSD 3-Clause license. Copyright © 2018, Rick Wong. All rights reserved.
