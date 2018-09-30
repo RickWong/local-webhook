@@ -20,7 +20,7 @@ Note: Install `express` and `ngrok` as well.
 ```js
 import LocalWebhook from 'local-webhook';
 
-await LocalWebhook.startServer();
+await LocalWebhook.startServer(); // optional: { port: 9090, region: "eu" }
 ```
 
 Generate webhook as a Promise:
