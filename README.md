@@ -9,11 +9,14 @@ Zero-configuration localhost webhooks.
 ## Installation
 
 ```bash
+# npm
 npm install --save-dev local-webhook express ngrok
+
+# yarn
 yarn add --dev local-webhook express ngrok
 ```
 
-Note: Install `express` and `ngrok` as well.
+Note: `express` and `ngrok` are required peer dependencies.
 
 ## Usage
 
@@ -57,7 +60,7 @@ observable.getWebhookUrl();
 ## Peer dependencies
 
 - [expressjs/express](https://github.com/expressjs/express) - http server
-- [bubenshchykov/ngrok](https://github.com/bubenshchykov/ngrok) - ngrok wrapper
+- [bubenshchykov/ngrok](https://github.com/bubenshchykov/ngrok) - [ngrok](https://ngrok.com/) wrapper
 
 ## Community
 
