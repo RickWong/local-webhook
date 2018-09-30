@@ -4,7 +4,7 @@ const fetch = require("node-fetch");
 (async function() {
   try {
     // Start LocalWebhook server.
-    await LocalWebhook.startServer();
+    await LocalWebhook.startServer({ region: "eu" });
 
     const simulatedTriggers = [];
 

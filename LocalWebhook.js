@@ -16,7 +16,7 @@ var LocalWebhook = {
   startServer: function(serverOptions) {
     serverOptions = serverOptions || {};
 
-    return new Promise(function(resolve) {
+    return new Promise(function(resolve, reject) {
       // Start Express.
       var app = express();
       var expressPort = serverOptions.port || Math.floor(Math.random() * 50000 + 10000);
@@ -40,6 +40,7 @@ var LocalWebhook = {
       var ngrokRegion = serverOptions.region || "us";
       var ngrokSubdomain = serverOptions.subdomain || undefined;
       var ngrokAuthToken = serverOptions.authtoken || undefined;
+
       ngrok.kill().then(function() {
         ngrok
           .connect({
@@ -53,7 +54,7 @@ var LocalWebhook = {
             LocalWebhook.ngrokUrl = ngrokUrl;
             debug("ngrok started on " + LocalWebhook.ngrokUrl);
             resolve();
-          });
+          }, reject);
       });
     });
   },
