@@ -1,6 +1,6 @@
 # local-webhook
 
-Zero-configuration localhost webhooks.
+Zero-configuration localhost webhooks. Do not use in production.
 
 <p>  
   <img src="https://i.imgur.com/ySm2Noc.png" alt="banner" draggable="false">
@@ -11,19 +11,17 @@ Zero-configuration localhost webhooks.
 ```bash
 # npm
 npm install --save-dev local-webhook express ngrok
-
-# yarn
-yarn add --dev local-webhook express ngrok
 ```
 
 Note: `express` and `ngrok` are required peer dependencies.
 
 ## Usage
 
+Setup:
 ```js
 import LocalWebhook from 'local-webhook';
 
-await LocalWebhook.startServer(); // optional: { port: 9090, region: "eu" }
+await LocalWebhook.startServer(); // optional: { region: "eu" }
 ```
 
 Generate webhook as a Promise:
