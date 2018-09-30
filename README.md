@@ -1,15 +1,19 @@
 # local-webhook
 
-Zero-configuration localhost webhooks. Do not use in production.
+Zero-configuration localhost webhooks.
+
+<p>  
+  <img src="https://i.imgur.com/ySm2Noc.png" alt="banner" draggable="false">
+</p>
 
 ## Installation
-
-Install `express` and `ngrok` as well.
 
 ```bash
 npm install --save-dev local-webhook express ngrok
 yarn add --dev local-webhook express ngrok
 ```
+
+Note: Install `express` and `ngrok` as well.
 
 ## Usage
 
@@ -28,7 +32,7 @@ promise.then(({ req, res }) => {
     res.send("Hello from promise");
 });
 
-// This URL that can be shared with third-party services.
+// This URL can be shared with third-party services.
 promise.getWebhookUrl(); 
 
 // Awaitable if necessary.
@@ -46,7 +50,7 @@ observable.subscribe({
   },
 });
 
-// This URL that can be shared with third-party services.
+// This URL can be shared with third-party services.
 observable.getWebhookUrl(); 
 ```
 
