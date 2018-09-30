@@ -57,7 +57,7 @@ observable.subscribe({
 });
 ```
 
-To replay requests, open ngrok's web interface at [localhost:4040](http://localhost:4040).
+To inspect and replay requests, open ngrok's web interface at [localhost:4040](http://localhost:4040).
 
 ## Peer dependencies
 
