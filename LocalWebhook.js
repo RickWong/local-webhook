@@ -38,9 +38,17 @@ var LocalWebhook = {
       // Start ngrok.
       var ngrokPort = serverOptions.port || expressPort;
       var ngrokRegion = serverOptions.region || "us";
+      var ngrokSubdomain = serverOptions.subdomain || undefined;
+      var ngrokAuthToken = serverOptions.authtoken || undefined;
       ngrok.kill().then(function() {
         ngrok
-          .connect({ addr: ngrokPort, region: ngrokRegion, bind_tls: true })
+          .connect({
+            addr: ngrokPort,
+            region: ngrokRegion,
+            subdomain: ngrokSubdomain,
+            authtoken: ngrokAuthToken,
+            bind_tls: true,
+          })
           .then(function(ngrokUrl) {
             LocalWebhook.ngrokUrl = ngrokUrl;
             debug("ngrok started on " + LocalWebhook.ngrokUrl);
