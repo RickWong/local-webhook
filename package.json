@@ -1,0 +1,50 @@
+{
+  "name": "local-webhook",
+  "version": "1.0.0",
+  "description": "Zero-configuration localhost webhooks",
+  "main": "LocalWebhook.js",
+  "author": "Rick Wong <rick@webambition.nl> (https://rick.codes)",
+  "license": "BSD-3-Clause",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RickWong/local-webhook.git"
+  },
+  "homepage": "https://github.com/RickWong/local-webhook",
+  "keywords": [
+    "localhost",
+    "webhooks",
+    "webhook",
+    "ngrok",
+    "promise",
+    "observable"
+  ],
+  "private": false,
+  "scripts": {
+    "dev": "cross-env DEBUG=local-webhook nodemon example.js",
+    "prettier": "find . -type f \\( -iname \\*.js -o -iname \\*.css \\) | grep -v node_modules | xargs prettier --write",
+    "precommit": "lint-staged"
+  },
+  "prettier": {
+    "printWidth": 100,
+    "trailingComma": "all"
+  },
+  "lint-staged": {
+    "**/*.{js,css}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "devDependencies": {
+    "cross-env": "5.2.0",
+    "husky": "1.0.1",
+    "lint-staged": "7.3.0",
+    "node-fetch": "2.2.0",
+    "nodemon": "1.18.4",
+    "prettier": "1.14.3",
+    "express": "4.16.3",
+    "ngrok": "3.1.0"
+  },
+  "dependencies": {
+    "debug": "4.0.1"
+  }
+}
