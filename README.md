@@ -30,13 +30,13 @@ Generate webhook as a Promise:
 ```js
 const promise = LocalWebhook.getPromise();
 
-promise.then(({ req, res }) => {
-  // Process webhook here with Express' req and res.
-    res.send("Hello from promise");
-});
-
 // This URL can be shared with third-party services.
 promise.getWebhookUrl(); 
+
+// Handle third-party service' webhook request once.
+promise.then(({ req, res }) => {
+    res.send("Hello from promise");
+});
 
 // Awaitable if necessary.
 await promise;
@@ -46,15 +46,15 @@ Generate webhook as an Observable:
 ```js
 const observable = LocalWebhook.getObservable();
 
+// This URL can be shared with third-party services.
+observable.getWebhookUrl(); 
+
+// Handle third-party service' webhook requests each time.
 observable.subscribe({
   next: ({ req, res }) => {
-    // Process webhook here with Express' req and res.
     res.send("Hello from observable");
   },
 });
-
-// This URL can be shared with third-party services.
-observable.getWebhookUrl(); 
 ```
 
 ## Peer dependencies
