@@ -26,32 +26,30 @@ await LocalWebhook.startServer(); // optional: { region: "eu" }
 
 Generate webhook as a Promise:
 ```js
-const promise = LocalWebhook.getPromise();
+const webhook = LocalWebhook.getPromise();
 
 // This URL can be shared with third-party services.
-promise.getWebhookUrl(); 
+webhook.getWebhookUrl(); 
 
 // Handle third-party service' webhook request once.
-promise.then(({ req, res }) => {
+webhook.then(({ req, res }) => {
     res.send("Hello from promise");
 });
 
 // Awaitable if necessary.
-await promise;
+await webhook;
 ```
 
 Generate webhook as an Observable:
 ```js
-const observable = LocalWebhook.getObservable();
+const webhook = LocalWebhook.getObservable();
 
 // This URL can be shared with third-party services.
-observable.getWebhookUrl(); 
+webhook.getWebhookUrl(); 
 
 // Handle third-party service' webhook requests each time.
-observable.subscribe({
-  next: ({ req, res }) => {
-    res.send("Hello from observable");
-  },
+webhook.subscribe(({ req, res }) => {
+  res.send("Hello from observable");
 });
 ```
 
