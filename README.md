@@ -17,7 +17,7 @@ Note: `express` and `ngrok` are required peer dependencies.
 
 ## Usage
 
-Setup:
+Setup and generate webhook as a Promise:
 ```js
 import LocalWebhook from 'local-webhook';
 
