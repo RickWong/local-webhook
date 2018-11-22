@@ -22,10 +22,7 @@ Setup:
 import LocalWebhook from 'local-webhook';
 
 await LocalWebhook.startServer(); // optional: { region: "eu" }
-```
 
-Generate webhook as a Promise:
-```js
 const webhook = LocalWebhook.getPromise();
 
 // This URL can be shared with third-party services.
