@@ -28,7 +28,7 @@ const webhook = LocalWebhook.getPromise();
 // This URL can be shared with third-party services.
 webhook.getWebhookUrl(); 
 
-// Handle third-party service' webhook request once.
+// Handle third-party service's webhook request once.
 webhook.then(({ req, res }) => {
     res.send("Hello from promise");
 });
@@ -44,7 +44,7 @@ const webhook = LocalWebhook.getObservable();
 // This URL can be shared with third-party services.
 webhook.getWebhookUrl(); 
 
-// Handle third-party service' webhook requests each time.
+// Handle third-party service's webhook requests each time.
 webhook.subscribe(({ req, res }) => {
   res.send("Hello from observable");
 });
