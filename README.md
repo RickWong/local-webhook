@@ -12,7 +12,7 @@ Zero-configuration localhost webhooks. Do not use in production.
 yarn add -D local-webhook express
 ```
 
-Note: `express` is a required peer dependency.
+Note: `express` is a required peer dependency. `ngrok` is optional in case you want to use it.
 
 ## Usage
 
@@ -20,10 +20,7 @@ Setup and generate webhook as a Promise:
 ```js
 import LocalWebhook from 'local-webhook';
 
-// Option 1: open ssh tunnel to localhost.run service (default).
 await LocalWebhook.startServer({ subdomain: "sushi" });
-// Option 2: use ngrok.
-await LocalWebhook.startServer({ service: "ngrok", region: "eu" }); 
 
 // Generate an awaitable webhook Promise.
 const webhook = LocalWebhook.getPromise("wasabi");
@@ -56,16 +53,18 @@ webhook.subscribe(({ req, res }) => {
 });
 ```
 
-To inspect and replay requests, open ngrok's web interface at [localhost:4040](http://localhost:4040).
+Check the [example](https://github.com/RickWong/local-webhook/blob/master/example.js) and [tests](https://github.com/RickWong/local-webhook/blob/master/LocalWebhook.test.js) for much more options.
+
+Note: If you're using ngrok, you can inspect and replay requests, open ngrok's web interface at [localhost:4040](http://localhost:4040). By default LocalWebhook uses [ssh.localhost.run](https://localhost.run).
 
 ## Peer dependencies
 
 - [expressjs/express](https://github.com/expressjs/express) - http server **(required)**
-- [bubenshchykov/ngrok](https://github.com/bubenshchykov/ngrok) - a [ngrok](https://ngrok.com/) wrapper
+- [bubenshchykov/ngrok](https://github.com/bubenshchykov/ngrok) - a [ngrok](https://ngrok.com/) wrapper (optional)
 
 ## Community
 
-Let's start one together! After you ★ this project, follow me [@rygu](https://twitter.com/rygu) on Twitter.
+Let's start one together! After you ★ this project, follow me [@Rygu](https://twitter.com/rygu) on Twitter.
 
 ## Thanks
 
