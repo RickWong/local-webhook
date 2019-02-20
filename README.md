@@ -9,10 +9,10 @@ Zero-configuration localhost webhooks. Do not use in production.
 ## Installation
 
 ```bash
-yarn add -D local-webhook express #ngrok
+yarn add -D local-webhook express
 ```
 
-Note: `express` is a **required** peer dependency. `ngrok` is optional in case you want to use it.
+Note: `express` is a required peer dependency. 
 
 ## Usage
 
@@ -44,10 +44,10 @@ Generate webhook as an Observable:
 const webhook = LocalWebhook.getObservable("ichiban");
 
 // This URL can be shared with third-party services.
-// Ex: "https://sushi.ngrok.io/ichiban"
+// Ex: "https://sushi.localhost.run/ichiban"
 webhook.getWebhookUrl(); 
 
-// Handle third-party service's webhook requests each time.
+// Handle third-party service's webhook requests each time it's called.
 webhook.subscribe(({ req, res }) => {
   res.send("Hello from observable, ichiban");
 });
