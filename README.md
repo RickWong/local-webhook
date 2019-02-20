@@ -9,10 +9,10 @@ Zero-configuration localhost webhooks. Do not use in production.
 ## Installation
 
 ```bash
-yarn add -D local-webhook express
+yarn add -D local-webhook express #ngrok
 ```
 
-Note: `express` is a required peer dependency. `ngrok` is optional in case you want to use it.
+Note: `express` is a **required** peer dependency. `ngrok` is optional in case you want to use it.
 
 ## Usage
 
@@ -26,7 +26,7 @@ await LocalWebhook.startServer({ subdomain: "sushi" });
 const webhook = LocalWebhook.getPromise("wasabi");
 
 // This URL can be shared with third-party services.
-// Ex: https://sushi.localhost.run/wasabi
+// Ex: "https://sushi.localhost.run/wasabi"
 webhook.getWebhookUrl(); 
 
 // Handle third-party service's webhook request once.
@@ -44,7 +44,7 @@ Generate webhook as an Observable:
 const webhook = LocalWebhook.getObservable("ichiban");
 
 // This URL can be shared with third-party services.
-// Ex: https://sushi.ngrok.io/ichiban
+// Ex: "https://sushi.ngrok.io/ichiban"
 webhook.getWebhookUrl(); 
 
 // Handle third-party service's webhook requests each time.
@@ -54,13 +54,6 @@ webhook.subscribe(({ req, res }) => {
 ```
 
 Check the [example](https://github.com/RickWong/local-webhook/blob/master/example.js) and [tests](https://github.com/RickWong/local-webhook/blob/master/LocalWebhook.test.js) for much more options.
-
-Note: If you're using ngrok, you can inspect and replay requests, open ngrok's web interface at [localhost:4040](http://localhost:4040). By default LocalWebhook uses [ssh.localhost.run](https://localhost.run).
-
-## Peer dependencies
-
-- [expressjs/express](https://github.com/expressjs/express) - http server **(required)**
-- [bubenshchykov/ngrok](https://github.com/bubenshchykov/ngrok) - a [ngrok](https://ngrok.com/) wrapper (optional)
 
 ## Community
 
