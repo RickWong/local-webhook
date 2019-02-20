@@ -9,11 +9,10 @@ Zero-configuration localhost webhooks. Do not use in production.
 ## Installation
 
 ```bash
-# npm
-npm install --save-dev local-webhook express ngrok
+yarn add -D local-webhook express
 ```
 
-Note: `express` and `ngrok` are required peer dependencies.
+Note: `express` is a required peer dependency.
 
 ## Usage
 
@@ -21,16 +20,21 @@ Setup and generate webhook as a Promise:
 ```js
 import LocalWebhook from 'local-webhook';
 
-await LocalWebhook.startServer(); // optional: { region: "eu" }
+// Option 1: open ssh tunnel to localhost.run service (default).
+await LocalWebhook.startServer({ subdomain: "sushi" });
+// Option 2: use ngrok.
+await LocalWebhook.startServer({ service: "ngrok", region: "eu" }); 
 
-const webhook = LocalWebhook.getPromise();
+// Generate an awaitable webhook Promise.
+const webhook = LocalWebhook.getPromise("wasabi");
 
 // This URL can be shared with third-party services.
+// Ex: https://sushi.localhost.run/wasabi
 webhook.getWebhookUrl(); 
 
 // Handle third-party service's webhook request once.
 webhook.then(({ req, res }) => {
-    res.send("Hello from promise");
+    res.send("Hello from promise, wasabi");
 });
 
 // Awaitable if necessary.
@@ -39,14 +43,16 @@ await webhook;
 
 Generate webhook as an Observable:
 ```js
-const webhook = LocalWebhook.getObservable();
+// Generate a webhook Observable.
+const webhook = LocalWebhook.getObservable("ichiban");
 
 // This URL can be shared with third-party services.
+// Ex: https://sushi.ngrok.io/ichiban
 webhook.getWebhookUrl(); 
 
 // Handle third-party service's webhook requests each time.
 webhook.subscribe(({ req, res }) => {
-  res.send("Hello from observable");
+  res.send("Hello from observable, ichiban");
 });
 ```
 
@@ -54,7 +60,7 @@ To inspect and replay requests, open ngrok's web interface at [localhost:4040](h
 
 ## Peer dependencies
 
-- [expressjs/express](https://github.com/expressjs/express) - http server
+- [expressjs/express](https://github.com/expressjs/express) - http server **(required)**
 - [bubenshchykov/ngrok](https://github.com/bubenshchykov/ngrok) - a [ngrok](https://ngrok.com/) wrapper
 
 ## Community

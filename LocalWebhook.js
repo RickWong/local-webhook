@@ -2,17 +2,27 @@
 
 var debug = require("debug")("local-webhook");
 var express = require("express");
-var ngrok = require("ngrok");
+var ssh2 = require("ssh2");
+var Socket = require("net").Socket;
 
 var LocalWebhook = {
   expressServer: null,
-  ngrokUrl: "",
+  sshTunnel: null,
+  service: "",
+  publicUrl: "",
   callbacks: {},
 
   randomString: function() {
     return Date.now() + "-" + Math.floor(Math.random() * Number.MAX_SAFE_INTEGER).toString(36);
   },
 
+  /*
+    - port: Local port to run express on in the background.
+    - service: Either "localhost.run" (default) or "ngrok".
+    - subdomain: For both "localhost.run" and "ngrok".
+    - region: For "ngrok" only.
+    - authtoken: For "ngrok" only.
+   */
   startServer: function(serverOptions) {
     serverOptions = serverOptions || {};
 
@@ -35,40 +45,94 @@ var LocalWebhook = {
         debug("express started on http://localhost:" + expressPort);
       });
 
-      // Start ngrok.
-      var ngrokPort = serverOptions.port || expressPort;
-      var ngrokRegion = serverOptions.region || "us";
-      var ngrokSubdomain = serverOptions.subdomain || undefined;
-      var ngrokAuthToken = serverOptions.authtoken || undefined;
+      LocalWebhook.service = serverOptions.service;
+      switch (LocalWebhook.service) {
+        case "ngrok":
+          // Start ngrok.
+          var ngrok = require("ngrok");
+          var ngrokPort = expressPort;
+          var ngrokRegion = serverOptions.region || "us";
+          var ngrokSubdomain = serverOptions.subdomain || undefined;
+          var ngrokAuthToken = serverOptions.authtoken || undefined;
 
-      ngrok.kill().then(function() {
-        ngrok
-          .connect({
-            addr: ngrokPort,
-            region: ngrokRegion,
-            subdomain: ngrokSubdomain,
-            authtoken: ngrokAuthToken,
-            bind_tls: true,
-          })
-          .then(function(ngrokUrl) {
-            LocalWebhook.ngrokUrl = ngrokUrl;
-            debug("ngrok started on " + LocalWebhook.ngrokUrl);
-            resolve();
-          }, reject);
-      });
+          ngrok.kill().then(function() {
+            ngrok
+              .connect({
+                addr: ngrokPort,
+                region: ngrokRegion,
+                subdomain: ngrokSubdomain,
+                authtoken: ngrokAuthToken,
+                bind_tls: true,
+              })
+              .then(function(ngrokUrl) {
+                LocalWebhook.publicUrl = ngrokUrl;
+                debug("ngrok started on " + LocalWebhook.publicUrl);
+                resolve();
+              }, reject);
+          });
+          break;
+
+        case "localhost.run":
+        default:
+          // Start ssh tunnel.
+          var sshUsername = serverOptions.subdomain || Date.now().toFixed();
+          LocalWebhook.sshTunnel = new ssh2();
+          LocalWebhook.sshTunnel
+            .on("ready", function() {
+              LocalWebhook.sshTunnel.forwardIn("localhost", 80, function(error) {
+                if (error) {
+                  return reject(error);
+                }
+                LocalWebhook.publicUrl = "https://" + sshUsername + ".localhost.run";
+                debug("ssh tunnel started on " + LocalWebhook.publicUrl);
+                resolve();
+              });
+            })
+            .on("tcp connection", function(info, accept, reject) {
+              var expressSocket = new Socket();
+              expressSocket
+                .on("error", function(error) {
+                  remote ? remote.end() : reject();
+                })
+                .connect(expressPort, function() {
+                  expressSocket.pipe(accept()).pipe(expressSocket);
+                });
+            })
+            .connect({
+              username: sshUsername,
+              host: "ssh.localhost.run",
+              port: 22,
+            });
+          break;
+      }
     });
   },
 
   stopServer: function() {
     LocalWebhook.expressServer.close();
     LocalWebhook.expressServer = null;
-    LocalWebhook.ngrokUrl = "";
+    LocalWebhook.publicUrl = "";
     LocalWebhook.callbacks = {};
-    return ngrok.kill();
+
+    switch (LocalWebhook.service) {
+      case "ngrok":
+        // Stop ngrok.
+        var ngrok = require("ngrok");
+        ngrok.kill();
+        break;
+
+      case "localhost.run":
+      default:
+        // Stop ssh tunnel.
+        if (LocalWebhook.sshTunnel) {
+          LocalWebhook.sshTunnel.end();
+        }
+        break;
+    }
   },
 
   getPromise: function(id) {
-    if (!LocalWebhook.ngrokUrl) {
+    if (!LocalWebhook.publicUrl) {
       throw new Error("Please call and await LocalWebhook.startServer() first");
     }
 
@@ -83,14 +147,14 @@ var LocalWebhook = {
     });
 
     promise.getWebhookUrl = function() {
-      return LocalWebhook.ngrokUrl + "/" + id;
+      return LocalWebhook.publicUrl + "/" + id;
     };
     debug("promise installed at " + promise.getWebhookUrl());
     return promise;
   },
 
   getObservable: function(id) {
-    if (!LocalWebhook.ngrokUrl) {
+    if (!LocalWebhook.publicUrl) {
       throw new Error("Please call and await LocalWebhook.startServer() first");
     }
 
@@ -116,7 +180,7 @@ var LocalWebhook = {
     };
 
     observable.getWebhookUrl = function() {
-      return LocalWebhook.ngrokUrl + "/" + id;
+      return LocalWebhook.publicUrl + "/" + id;
     };
     debug("observable installed at " + observable.getWebhookUrl());
     return observable;
