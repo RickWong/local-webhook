@@ -10,6 +10,11 @@
     "url": "https://github.com/RickWong/local-webhook.git"
   },
   "homepage": "https://github.com/RickWong/local-webhook",
+  "files": [
+    "*.js",
+    "*.json",
+    "*.md"
+  ],
   "keywords": [
     "localhost",
     "webhooks",
