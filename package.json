@@ -49,7 +49,7 @@
     "express": "^4.5",
     "husky": "1.*",
     "jest": "24.*",
-    "lint-staged": "8.*",
+    "lint-staged": "9.*",
     "ngrok": "3.*",
     "node-fetch": "2.*",
     "nodemon": "1.*",
