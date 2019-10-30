@@ -3,7 +3,7 @@
   "version": "1.3.0",
   "description": "Zero-configuration localhost webhooks",
   "main": "LocalWebhook.js",
-  "author": "Rick Wong <rick@webambition.nl> (https://rick.codes)",
+  "author": "Rick Wong",
   "license": "BSD-3-Clause",
   "repository": {
     "type": "git",
