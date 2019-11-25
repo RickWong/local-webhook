@@ -52,7 +52,7 @@
     "lint-staged": "8.*",
     "ngrok": "3.*",
     "node-fetch": "2.*",
-    "nodemon": "1.*",
+    "nodemon": "2.*",
     "prettier": "1.*"
   },
   "dependencies": {
